@@ -10,6 +10,7 @@ class Conta:
         self.senha = senha
         self.telefone = telefone
         self.gps = 0.0
+
         self.notificacoes = []
 
     def mandar_mensagem(self, receptor):
@@ -38,6 +39,11 @@ class Conta:
         self.adicionar_notificacao(notificacao)
         print("Mensagem recebida de: ", notificacao["texto"])
 
+    def ver_contatos(self):
+        print("Contatos:")
+        for contato in self.contatos:
+            print(contato)
+
     def adicionar_notificacao(self, notificacao):
         if notificacao["tipo"] not in ["mensagem", "alerta", "aviso"]:
             print("Tipo de notificação inválido. Use 'mensagem', 'alerta' ou 'aviso'.")
@@ -54,6 +60,9 @@ class Conta:
             notificacao = self.notificacoes[indice]
             if notificacao["tipo"] == "mensagem":
                 print(f"Mensagem de {notificacao['remetente']}: {notificacao['texto']}")
+            return
+
+        print("Indice inválido. Nenhuma notificação lida.")
 
     def ver_notificacoes(self):
         if not self.notificacoes:
@@ -65,11 +74,42 @@ class Conta:
 
         if input("Deseja ler alguma notificação? (s/n): ").lower() == 's':
             indice = int(input("Digite o número da notificação que deseja ler: ")) - 1
+
             self.ler_notificacao(indice)
             self.deletar_notificacao(indice)
 
         return
-        
+
+    def ver_perfil(self):
+        print("Nome:", self.nome)
+        print("CPF:", self.cpf)
+        print("Telefone:", self.telefone)
+
+    def interface_usuario(self):
+        while True:
+            print("\n--- Menu da Conta ---")
+            print("1. Ver perfil")
+            print("2. Ver notificações")
+            print("3. Ver contatos")
+            print("4. Sair")
+
+            escolha = input("Escolha uma opção: ")
+
+            if escolha == "1":
+                self.ver_perfil()
+
+            elif escolha == "2":
+                self.ver_notificacoes()
+
+            elif escolha == "3":
+                self.ver_contatos()
+
+            elif escolha == "4":
+                print("Saindo...")
+                return
+
+            else:
+                print("Opção inválida. Tente novamente.")
 
 CONTA001 = Conta("Maria", "123.456.789-00", "senha123", "(11) 98765-4321")
 
