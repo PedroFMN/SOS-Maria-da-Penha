@@ -128,14 +128,3 @@ class Conta:
 
             else:
                 print("Opção inválida. Tente novamente.")
-
-CONTA001 = Conta("Maria", "123.456.789-00", "senha123", "(11) 98765-4321")
-
-CONTA001.adicionar_notificacao({
-    "tipo": "mensagem",
-    "remetente": "João",
-    "titulo": "Nova mensagem",
-    "texto": "Olá, como você está?"
-})
-
-CONTA001.interface_usuario()
