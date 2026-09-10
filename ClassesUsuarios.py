@@ -11,6 +11,7 @@ class Conta:
         self.telefone = telefone
         self.gps = 0.0
 
+        self.contatos = []
         self.notificacoes = []
 
     def mandar_mensagem(self, receptor):
@@ -38,11 +39,6 @@ class Conta:
 
         self.adicionar_notificacao(notificacao)
         print("Mensagem recebida de: ", notificacao["texto"])
-
-    def ver_contatos(self):
-        print("Contatos:")
-        for contato in self.contatos:
-            print(contato)
 
     def adicionar_notificacao(self, notificacao):
         if notificacao["tipo"] not in ["mensagem", "alerta", "aviso"]:
@@ -85,6 +81,28 @@ class Conta:
         print("CPF:", self.cpf)
         print("Telefone:", self.telefone)
 
+    def adicionar_contato(self, contato):
+        self.contatos.append(contato)
+
+    def ver_contatos(self):
+        if not self.contatos:
+            print("Nenhum contato disponível.")
+            return
+
+        print("Contatos:")
+        for i, contato in enumerate(self.contatos, start=1):
+            print(f"{i}. {contato}")
+
+        if input("Deseja enviar uma mensagem para algum contato? (s/n): ").lower() == 's':
+            indice = int(input("Digite o número do contato que deseja enviar a mensagem: ")) - 1
+
+            if 0 <= indice < len(self.contatos):
+                receptor = self.contatos[indice]
+                self.mandar_mensagem(receptor)
+            else:
+                print("Contato inválido.")
+            return
+
     def interface_usuario(self):
         while True:
             print("\n--- Menu da Conta ---")
@@ -120,5 +138,4 @@ CONTA001.adicionar_notificacao({
     "texto": "Olá, como você está?"
 })
 
-CONTA001.ver_notificacoes()
-CONTA001.ver_notificacoes()
+CONTA001.interface_usuario()
