@@ -1,7 +1,9 @@
 #CLASSES DOS USUÁRIOS DO SISTEMA: USUÁRIA E AGENTE
 
-#CLASSE ABSTRATA
+#CLASSE ABSTRATA CONTA
 #SUBCLASSES: USUÁRIA E AGENTE
+
+from enum import Enum
 
 class Conta:
     def __init__(self, nome, cpf, senha, telefone):
@@ -103,28 +105,66 @@ class Conta:
                 print("Contato inválido.")
             return
 
-    def interface_usuario(self):
+    def menu_principal(self, acoes):
+        print("--- Menu da Conta ---")
+        print("1. Ver perfil")
+        print("2. Ver notificações")
+        print("3. Ver contatos")
+        print("4. Enviar mensagem")
+        print("5. Sair")
+
+        escolha = input("Escolha uma opção: ")
+
         while True:
-            print("\n--- Menu da Conta ---")
-            print("1. Ver perfil")
-            print("2. Ver notificações")
-            print("3. Ver contatos")
-            print("4. Sair")
-
-            escolha = input("Escolha uma opção: ")
-
             if escolha == "1":
-                self.ver_perfil()
+                return acoes.VER_PERFIL
 
             elif escolha == "2":
-                self.ver_notificacoes()
+                return acoes.VER_NOTIFICACOES
 
             elif escolha == "3":
-                self.ver_contatos()
+                return acoes.VER_CONTATOS
 
             elif escolha == "4":
+                return acoes.ENVIAR_MENSAGEM
+
+            elif escolha == "5":
                 print("Saindo...")
-                return
+                return acoes.OFF
 
             else:
                 print("Opção inválida. Tente novamente.")
+
+    def interface_usuario(self):
+        class acoes(Enum):
+            VER_PERFIL = 1
+            VER_NOTIFICACOES = 2
+            VER_CONTATOS = 3
+            MENU = 4
+            ENVIAR_MENSAGEM = 5
+            OFF = 6
+
+        acao_do_momento = acoes.MENU
+
+        while not acao_do_momento == acoes.OFF:
+            if acao_do_momento == acoes.MENU:
+                acao_do_momento = self.menu_principal(acoes)
+
+            else:
+                if acao_do_momento == acoes.VER_PERFIL:
+                    self.ver_perfil()
+
+                if acao_do_momento == acoes.VER_NOTIFICACOES:
+                    self.ver_notificacoes()
+
+                if acao_do_momento == acoes.VER_CONTATOS:
+                    self.ver_contatos()
+
+                if acao_do_momento == acoes.ENVIAR_MENSAGEM:
+                    self.ver_contatos()
+
+                acao_do_momento = acoes.MENU
+
+Boneco = Conta("Boneco", "123.456.789-00", "senha123", "99999-9999")
+
+Boneco.interface_usuario()
