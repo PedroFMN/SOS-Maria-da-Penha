@@ -163,8 +163,115 @@ class Conta:
                 if acao_do_momento == acoes.ENVIAR_MENSAGEM:
                     self.ver_contatos()
 
+                if acao_do_momento == acoes.VER_GUARDIOES:
+                    self.ver_guardioes()
+
                 acao_do_momento = acoes.MENU
 
-Boneco = Conta("Boneco", "123.456.789-00", "senha123", "99999-9999")
+class Usuaria(Conta):
+    def __init__(self, nome, cpf, senha, telefone, guardioes):
+        super().__init__(nome, cpf, senha, telefone)
+        self.guardioes = guardioes # Os guardiões são pessoas de confiança da usuária.
+        self.medida_protetiva = "" # Medida protetiva da usuária, caso ela possua uma. Inicialmente, é uma string vazia.
 
-Boneco.interface_usuario()
+    def cadastrar_guardiao(self, guardiao):
+        self.guardioes.append(guardiao)
+        print(f"Guardião cadastrado:{guardiao.nome}")
+
+    def ver_guardioes(self):
+        if not self.guardioes:
+            print("Nenhum guardião cadastrado.")
+        else:
+            for guardiao in self.guardioes:
+                print(f"Guardião: {guardiao.nome} - Telefone: {guardiao.telefone}")
+
+        if len(self.guardioes) < 2:
+            if input("Deseja cadastrar algum guardião? (s/n): ").lower() == 's':
+                nome = input("Digite o nome do guardião: ")
+                telefone = input("Digite o telefone do guardião: ")
+                guardiao = "TESTE" 
+                self.cadastrar_guardiao(guardiao)
+
+        for i, guardiao in enumerate(self.guardioes, start=1):
+            print(f"{i}. {guardiao.nome} - Telefone: {guardiao.telefone}")
+
+    def cadastrar_medida_protetiva(self, medida):
+        self.medida_protetiva = medida
+        print(f"Medida protetiva cadastrada: {self.medida_protetiva.nome_judicial}")
+
+    def acionar_emergencia(self):
+        print("Acionando emergência...")
+
+        # PARA FAZER ESSA FUNÇÃO, PRIMEIRO PRECISAREMOS DE OUTROS SISTEMAS.
+
+    def menu_principal(self, acoes):
+        print("--- Menu da Conta ---")
+        print("1. Ver perfil")
+        print("2. Ver notificações")
+        print("3. Ver contatos")
+        print("4. Acionar Emergência")
+        print("5. Ver guardiões")
+        print("6. Sair")
+
+        escolha = input("Escolha uma opção: ")
+
+        while True:
+            if escolha == "1":
+                return acoes.VER_PERFIL
+
+            elif escolha == "2":
+                return acoes.VER_NOTIFICACOES
+
+            elif escolha == "3":
+                return acoes.VER_CONTATOS
+
+            elif escolha == "4":
+                return acoes.ACIONAR_EMERGENCIA
+
+            elif escolha == "5":
+                return acoes.VER_GUARDIOES
+
+            elif escolha == "6":
+                print("Saindo...")
+                return acoes.OFF
+
+            else:
+                print("Opção inválida. Tente novamente.")
+
+    def interface_usuario(self):
+        class acoes(Enum):
+            VER_PERFIL = 1
+            VER_NOTIFICACOES = 2
+            VER_CONTATOS = 3
+            VER_GUARDIOES = 7
+            MENU = 4
+            ACIONAR_EMERGENCIA = 5
+            OFF = 6
+
+        acao_do_momento = acoes.MENU
+
+        while not acao_do_momento == acoes.OFF:
+            if acao_do_momento == acoes.MENU:
+                acao_do_momento = self.menu_principal(acoes)
+
+            else:
+                if acao_do_momento == acoes.VER_PERFIL:
+                    self.ver_perfil()
+
+                if acao_do_momento == acoes.VER_NOTIFICACOES:
+                    self.ver_notificacoes()
+
+                if acao_do_momento == acoes.VER_CONTATOS:
+                    self.ver_contatos()
+
+                if acao_do_momento == acoes.ACIONAR_EMERGENCIA:
+                    self.acionar_emergencia()
+
+                if acao_do_momento == acoes.VER_GUARDIOES:
+                    self.ver_guardioes()
+
+                acao_do_momento = acoes.MENU
+
+Maria = Usuaria("Maria", "12345678900", "senha123", "11999999999", [])
+
+Maria.interface_usuario()
