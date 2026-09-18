@@ -93,7 +93,7 @@ class Conta:
 
         print("Contatos:")
         for i, contato in enumerate(self.contatos, start=1):
-            print(f"{i}. {contato}")
+            print(f"{i}. {contato.nome}")
 
         if input("Deseja enviar uma mensagem para algum contato? (s/n): ").lower() == 's':
             indice = int(input("Digite o número do contato que deseja enviar a mensagem: ")) - 1
@@ -105,13 +105,15 @@ class Conta:
                 print("Contato inválido.")
             return
 
+    def adicionar_contato(self, contato):
+        self.contatos.append(contato)
+
     def menu_principal(self, acoes):
         print("--- Menu da Conta ---")
         print("1. Ver perfil")
         print("2. Ver notificações")
         print("3. Ver contatos")
-        print("4. Enviar mensagem")
-        print("5. Sair")
+        print("4. Sair")
 
         escolha = input("Escolha uma opção: ")
 
@@ -126,9 +128,6 @@ class Conta:
                 return acoes.VER_CONTATOS
 
             elif escolha == "4":
-                return acoes.ENVIAR_MENSAGEM
-
-            elif escolha == "5":
                 print("Saindo...")
                 return acoes.OFF
 
@@ -141,7 +140,6 @@ class Conta:
             VER_NOTIFICACOES = 2
             VER_CONTATOS = 3
             MENU = 4
-            ENVIAR_MENSAGEM = 5
             OFF = 6
 
         acao_do_momento = acoes.MENU
@@ -159,12 +157,6 @@ class Conta:
 
                 if acao_do_momento == acoes.VER_CONTATOS:
                     self.ver_contatos()
-
-                if acao_do_momento == acoes.ENVIAR_MENSAGEM:
-                    self.ver_contatos()
-
-                if acao_do_momento == acoes.VER_GUARDIOES:
-                    self.ver_guardioes()
 
                 acao_do_momento = acoes.MENU
 
@@ -272,6 +264,10 @@ class Usuaria(Conta):
 
                 acao_do_momento = acoes.MENU
 
+PedraoGLUGLU = Usuaria("PedraoGLUGLU", "12345678900", "6942067", "11999999999", [])
+
 Maria = Usuaria("Maria", "12345678900", "senha123", "11999999999", [])
+
+Maria.adicionar_contato(PedraoGLUGLU)
 
 Maria.interface_usuario()
