@@ -2,22 +2,30 @@
 
 import json
 
-USUARIO_ATUAL = None #USUÁRIO QUE IRÁ USAR O SISTEMA AQUI!
+#BIBLIOTECAS DAS CLASSES:
+import ClassesUsuarios
+
+USUARIO_LOGADO = None #USUÁRIO QUE IRÁ USAR O SISTEMA AQUI!
+LOGADO = False #VARIÁVEL PARA SABER SE O USUÁRIO ESTÁ LOGADO OU NÃO
 
 def interface_inicial():
-    print("SOS MARIA DA PENHA - Sistema de Denúncia")
-    print("1. Criar conta")
-    print("2. Entrar na conta")
-    print("Qualquer outra digitação sairá do aplicativo.")
-    match int(input()):
-        case 1:
-            criar_conta()
-        case 2:
-            #login()
-            pass
-        case _:
-            print("Saindo do aplicativo...")
-            exit()
+    while True:
+        if not LOGADO:
+            print("SOS MARIA DA PENHA - Sistema de Denúncia")
+            print("1. Criar conta")
+            print("2. Entrar na conta")
+            print("Qualquer outra digitação sairá do aplicativo.")
+
+            match int(input()):
+                case 1:
+                    criar_conta()
+                case 2:
+                    login()
+                case _:
+                    print("Saindo do aplicativo...")
+                    exit("Aplicativo fechado!.")
+        else:
+            USUARIO_LOGADO.interface_usuario()
 
 def criar_conta():
     with open("usuarios_db.json", "r") as arquivo:
@@ -58,10 +66,26 @@ def criar_conta():
 
 
 def adicionar_dado_usuario(conta, cpf, usuarios):
-
     usuarios[cpf] = conta
 
     with open("usuarios_db.json", "w") as arquivo:
-        json.dump(usuarios, arquivo, indent=5)
+        json.dump(usuarios, arquivo, indent=4)
 
-criar_conta()
+def login():
+    with open("usuarios_db.json", "r") as arquivo:
+        usuarios = json.load(arquivo)
+
+    cpf = str(input("Digite seu CPF: "))
+    senha = str(input("Digite sua senha: "))
+
+    if cpf in usuarios and usuarios[cpf]["senha"] == senha:
+        global USUARIO_LOGADO, LOGADO
+        usuario_dados = usuarios[cpf]
+        USUARIO_LOGADO = ClassesUsuarios.Usuaria(usuario_dados["nome"], usuario_dados["cpf"], usuario_dados["senha"], usuario_dados["telefone"])
+        LOGADO = True
+        print(f"Bem-vindo(a), {USUARIO_LOGADO.nome}!")
+        # Aqui você pode chamar a função para acessar o menu principal do sistema
+    else:
+        print("CPF ou senha incorretos. Tente novamente.")
+
+interface_inicial()
