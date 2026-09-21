@@ -5,6 +5,8 @@
 
 from enum import Enum
 
+import json
+
 class Conta:
     def __init__(self, nome, cpf, senha, telefone):
         self.nome = nome
@@ -168,6 +170,8 @@ class Usuaria(Conta):
 
     def cadastrar_guardiao(self, guardiao):
         self.guardioes.append(guardiao)
+        with open("guardioes_db.json", "r") as dados :
+            json.dump(guardiao)
         print(f"Guardião cadastrado: PLACEHOLDER") #TROCAR QUANDO FAZEREM A CLASSE.
 
     def ver_guardioes(self):    
@@ -183,9 +187,6 @@ class Usuaria(Conta):
                 telefone = input("Digite o telefone do guardião: ")
                 guardiao = "TESTE" 
                 self.cadastrar_guardiao(guardiao)
-
-        for i, guardiao in enumerate(self.guardioes, start=1):
-            print(f"{i}. {guardiao.nome} - Telefone: {guardiao.telefone}")
 
     def cadastrar_medida_protetiva(self, medida):
         self.medida_protetiva = medida
