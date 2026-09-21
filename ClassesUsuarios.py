@@ -161,16 +161,16 @@ class Conta:
                 acao_do_momento = acoes.MENU
 
 class Usuaria(Conta):
-    def __init__(self, nome, cpf, senha, telefone, guardioes):
+    def __init__(self, nome, cpf, senha, telefone):
         super().__init__(nome, cpf, senha, telefone)
-        self.guardioes = guardioes # Os guardiões são pessoas de confiança da usuária.
+        self.guardioes = [] # Os guardiões são pessoas de confiança da usuária.
         self.medida_protetiva = "" # Medida protetiva da usuária, caso ela possua uma. Inicialmente, é uma string vazia.
 
     def cadastrar_guardiao(self, guardiao):
         self.guardioes.append(guardiao)
-        print(f"Guardião cadastrado:{guardiao.nome}")
+        print(f"Guardião cadastrado: PLACEHOLDER") #TROCAR QUANDO FAZEREM A CLASSE.
 
-    def ver_guardioes(self):
+    def ver_guardioes(self):    
         if not self.guardioes:
             print("Nenhum guardião cadastrado.")
         else:
@@ -263,11 +263,3 @@ class Usuaria(Conta):
                     self.ver_guardioes()
 
                 acao_do_momento = acoes.MENU
-
-PedraoGLUGLU = Usuaria("PedraoGLUGLU", "12345678900", "6942067", "11999999999", [])
-
-Maria = Usuaria("Maria", "12345678900", "senha123", "11999999999", [])
-
-Maria.adicionar_contato(PedraoGLUGLU)
-
-Maria.interface_usuario()
