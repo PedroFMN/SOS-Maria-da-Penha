@@ -25,6 +25,7 @@ def interface_inicial():
                     print("Saindo do aplicativo...")
                     exit("Aplicativo fechado!.")
         else:
+            USUARIO_LOGADO.adicionar_notificacao({"tipo": "alerta", "titulo": "Alerta de segurança", "texto": "Lembre-se de manter sua segurança em primeiro lugar!"})
             USUARIO_LOGADO.interface_usuario()
 
 def criar_conta():
@@ -49,7 +50,7 @@ def criar_conta():
         telefone = str(input("Digite seu telefone (apenas números): "))
         if len(telefone) == 8 and telefone.isdigit() and telefone not in usuarios:
             break
-        print("Telefone inválido. Digite um telefone válido com pelo menos 8 dígitos.")
+        print("Telefone inválido. Digite um telefone válido com pelo menos 8 dígitos ou que já não está cadastrado.")
 
     nova_conta = {
         "nome": nome,

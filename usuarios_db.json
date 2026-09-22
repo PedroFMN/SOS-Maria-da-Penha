@@ -1,1 +1,17 @@
-{}
+{
+    "12345678987": {
+        "nome": "um 12345678987 123456 12345678",
+        "cpf": "12345678987",
+        "senha": "123456",
+        "telefone": "12345678",
+        "guardioes": [],
+        "notificacoes": [
+            {
+                "tipo": "alerta",
+                "titulo": "Alerta de segurança",
+                "texto": "Lembre-se de manter sua segurança em primeiro lugar!"
+            }
+        ],
+        "medida_protetiva": ""
+    }
+}

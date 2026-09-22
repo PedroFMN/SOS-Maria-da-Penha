@@ -34,15 +34,15 @@ class Conta:
 
     def receber_mensagem(self, mensagem):
         #CRIA UMA NOTIFICAÇÃO PARA O USUÁRIO RECEPTOR DA MENSAGEM
-        notificacao = {
+        nova_notificacao = {
             "tipo": "mensagem",
             "remetente": mensagem["remetente"],
             "titulo": "Nova mensagem recebida",
             "texto": mensagem["texto"],
         }
 
-        self.adicionar_notificacao(notificacao)
-        print("Mensagem recebida de: ", notificacao["texto"])
+        self.adicionar_notificacao(nova_notificacao)
+        print("Mensagem recebida de: ", nova_notificacao["texto"])
 
     def adicionar_notificacao(self, notificacao):
         if notificacao["tipo"] not in ["mensagem", "alerta", "aviso"]:
@@ -50,6 +50,12 @@ class Conta:
             return
 
         self.notificacoes.append(notificacao)
+
+        with open("usuarios_db.json", "r+") as dados:
+            usuarios = json.load(dados)
+            usuarios[self.cpf]["notificacoes"] = self.notificacoes
+        with open("usuarios_db.json", "w", encoding="utf-8") as dados:
+            json.dump(usuarios, dados, indent=4, ensure_ascii=False)
 
     def deletar_notificacao(self, indice):
         if 0 <= indice < len(self.notificacoes):
@@ -189,7 +195,7 @@ class Usuaria(Conta):
                 self.cadastrar_guardiao(guardiao)
 
     def cadastrar_medida_protetiva(self, medida):
-        self.medida_protetiva = medida
+        self.medida_protetiva = medida.nome_judicial
         print(f"Medida protetiva cadastrada: {self.medida_protetiva.nome_judicial}")
 
     def acionar_emergencia(self):
