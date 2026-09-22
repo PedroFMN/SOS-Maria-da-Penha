@@ -25,7 +25,6 @@ def interface_inicial():
                     print("Saindo do aplicativo...")
                     exit("Aplicativo fechado!.")
         else:
-            USUARIO_LOGADO.adicionar_notificacao({"tipo": "alerta", "titulo": "Alerta de segurança", "texto": "Lembre-se de manter sua segurança em primeiro lugar!"})
             USUARIO_LOGADO.interface_usuario()
 
 def criar_conta():
@@ -82,7 +81,7 @@ def login():
     if cpf in usuarios and usuarios[cpf]["senha"] == senha:
         global USUARIO_LOGADO, LOGADO
         usuario_dados = usuarios[cpf]
-        USUARIO_LOGADO = ClassesUsuarios.Usuaria(usuario_dados["nome"], usuario_dados["cpf"], usuario_dados["senha"], usuario_dados["telefone"])
+        USUARIO_LOGADO = ClassesUsuarios.Usuaria(usuario_dados["nome"], usuario_dados["cpf"], usuario_dados["senha"], usuario_dados["telefone"], usuario_dados["guardioes"], usuario_dados["medida_protetiva"])
         LOGADO = True
         print(f"Bem-vindo(a), {USUARIO_LOGADO.nome}!")
         # Aqui você pode chamar a função para acessar o menu principal do sistema
