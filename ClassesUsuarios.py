@@ -8,7 +8,7 @@ from enum import Enum
 import json
 
 class Conta:
-    def __init__(self, nome, cpf, senha, telefone):
+    def __init__(self, nome, cpf, senha, telefone, notificacoes):
         self.nome = nome
         self.cpf = cpf
         self.senha = senha
@@ -16,7 +16,7 @@ class Conta:
         self.gps = 0.0
 
         self.contatos = []
-        self.notificacoes = []
+        self.notificacoes = notificacoes
 
     def mandar_mensagem(self, receptor):
         texto = input("Digite: ")
@@ -60,6 +60,11 @@ class Conta:
     def deletar_notificacao(self, indice):
         if 0 <= indice < len(self.notificacoes):
             del self.notificacoes[indice]
+        with open("usuarios_db.json", "r+") as dados:
+            usuarios = json.load(dados)
+            usuarios[self.cpf]["notificacoes"] = self.notificacoes
+        with open("usuarios_db.json", "w", encoding="utf-8") as dados:
+            json.dump(usuarios, dados, indent=4, ensure_ascii=False)
 
     def ler_notificacao(self, indice):
         if 0 <= indice < len(self.notificacoes):
@@ -169,8 +174,8 @@ class Conta:
                 acao_do_momento = acoes.MENU
 
 class Usuaria(Conta):
-    def __init__(self, nome, cpf, senha, telefone, guardioes, medida_protetiva):
-        super().__init__(nome, cpf, senha, telefone)
+    def __init__(self, nome, cpf, senha, telefone, guardioes, medida_protetiva, notificacoes):
+        super().__init__(nome, cpf, senha, telefone, notificacoes)
         self.guardioes = guardioes # Os guardiões são pessoas de confiança da usuária.
         self.medida_protetiva = medida_protetiva # Medida protetiva da usuária, caso ela possua uma. Inicialmente, é uma string vazia.
 

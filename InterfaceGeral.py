@@ -81,7 +81,7 @@ def login():
     if cpf in usuarios and usuarios[cpf]["senha"] == senha:
         global USUARIO_LOGADO, LOGADO
         usuario_dados = usuarios[cpf]
-        USUARIO_LOGADO = ClassesUsuarios.Usuaria(usuario_dados["nome"], usuario_dados["cpf"], usuario_dados["senha"], usuario_dados["telefone"], usuario_dados["guardioes"], usuario_dados["medida_protetiva"])
+        USUARIO_LOGADO = ClassesUsuarios.Usuaria(usuario_dados["nome"], usuario_dados["cpf"], usuario_dados["senha"], usuario_dados["telefone"], usuario_dados["guardioes"], usuario_dados["medida_protetiva"], usuario_dados["notificacoes"])
         LOGADO = True
         print(f"Bem-vindo(a), {USUARIO_LOGADO.nome}!")
         # Aqui você pode chamar a função para acessar o menu principal do sistema
