@@ -5,8 +5,6 @@ class Notificacao:
         self.titulo = titulo
         self.texto = texto
         self.data = data
-    
-
 
 class Mensagem:
     def __init__(self,receptor,texto,data):
