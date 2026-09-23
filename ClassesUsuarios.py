@@ -33,7 +33,16 @@ class Conta:
             "remetente": self.nome,
             "texto": texto
         }
-        receptor.receber_mensagem(mensagem)
+
+        with open("agentes_db.json", "r+") as dados:
+            usuarios = json.load(dados)
+            #PROCURE O AGENTE NO JSON:
+            for agente in usuarios.values():
+                if agente["nome"] == receptor:
+                    #CRIE UMA INSTANCIA DA CLASSE AGENTE AQUI!
+                    receptor_da_mensagem = Agente(agente["nome"], agente["cpf"], agente["senha"], agente["telefone"], agente["central_de_seguranca"], agente["matricula"])
+                    break
+        receptor_da_mensagem.receber_mensagem(mensagem)
 
     def receber_mensagem(self, mensagem):
         #CRIA UMA NOTIFICAÇÃO PARA O USUÁRIO RECEPTOR DA MENSAGEM
@@ -109,6 +118,7 @@ class Conta:
 
     def adicionar_contato(self, contato):
         self.contatos.append(contato)
+        
 
     def ver_contatos(self):
         if not self.contatos:
@@ -186,6 +196,10 @@ class Conta:
 
                 acao_do_momento = acoes.MENU
 
+#SUBCLASSE DE Conta
+#CLASSE PARA TODAS AS USUÁRIAS DO SISTEMA
+#INTERAGEM COM A OUTRA SUBCLASSE DA CONTA, AGENTE, POR MEIO DE MENSAGENS E EMERGÊNCIAS.
+
 class Usuaria(Conta):
     def __init__(self, nome, cpf, senha, telefone, guardioes, medida_protetiva, notificacoes, contatos):
         super().__init__(nome, cpf, senha, telefone, notificacoes, contatos)
@@ -193,6 +207,7 @@ class Usuaria(Conta):
         self.medida_protetiva = medida_protetiva # Medida protetiva da usuária, caso ela possua uma. Inicialmente, é uma string vazia.
 
     def cadastrar_guardiao(self, guardiao):
+        #Relação de herança
         self.guardioes.append(guardiao)
 
         guardiao_dados ={
@@ -247,20 +262,20 @@ class Usuaria(Conta):
                 #crie uma instância da classe agente e chame o método receberEmergencia passando a localização da usuária
                 #coloque as notificações do agente e os contatos
             notificacao_obj = []
-            for notificacao in agente["notificacoes"]:
+            for notificacao in agentes_disponiveis["notificacoes"]:
                 notificacao_obj.append(ClassesAplicativo.Notificacao(notificacao["tipo"], notificacao["remetente"], notificacao["titulo"], notificacao["texto"], notificacao["data"]))
 
-                agente_escolhido = Agente(agente["nome"], agente["cpf"], agente["senha"], agente["telefone"], agente["central_de_seguranca"], agente["matricula"])
-                agente_escolhido.receber_ocorrencia(emergencia)
-                for guardiao in self.guardioes:
-                    guardiao.receberEmergencia(self.gps)
-                nao_esta = True
-                for contato in self.contatos:
-                    if agente_escolhido.nome == contato.nome:
-                        nao_esta = False
-                if nao_esta:
-                    self.adicionar_contato(agente_escolhido)
-                    print(f"Agente {agente_escolhido.nome} adicionado aos contatos da usuária.")
+            agente_escolhido = Agente(agente["nome"], agente["cpf"], agente["senha"], agente["telefone"], agente["central_de_seguranca"], agente["matricula"], notificacao_obj)
+            agente_escolhido.receber_ocorrencia(emergencia)
+            for guardiao in self.guardioes:
+                guardiao.receberEmergencia(self.gps)
+            nao_esta = True
+            for contato in self.contatos:
+                if agente_escolhido.nome == contato.nome:
+                    nao_esta = False
+            if nao_esta:
+                self.adicionar_contato(agente_escolhido)
+                print(f"Agente {agente_escolhido.nome} adicionado aos contatos da usuária.")
 
     def menu_principal(self, acoes):
         print("--- Menu da Conta ---")
@@ -389,6 +404,9 @@ class Usuaria(Conta):
 
                 acao_do_momento = acoes.MENU
         exit()
+
+#Relação de herança: SUBCLASSE DE CONTA
+#INTERAGE COM A SUBCLASSE USUÁRIA POR MEIO DE MENSAGENS E EMERGÊNCIAS
 
 class Agente(Conta):
     def __init__(self, nome, cpf, senha, telefone, notificacoes, contatos, central_de_seguranca, matricula, nivel_de_acesso="Agente"):

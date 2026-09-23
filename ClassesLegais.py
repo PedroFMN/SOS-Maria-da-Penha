@@ -1,5 +1,8 @@
 import json
 
+#TODA MEDIDA PROTETIVA CADASTRADA
+#É A CLASSE ONDE ARMAZENA A OUTRA CLASSE AGRESSOR, SEM A MEDIDA PROTETIVA, NÃO EXISTE AGRESSOR NO SISTEMA! (RELAÇÃO DE COMPOSIÇÃO)
+
 class Medida_Protetiva:
     def __init__(self, nomejudicial, distancia, data_inicio, validacao, agressor, agressor_com_tornozeleira):
         self.nomejudicial = nomejudicial
@@ -29,6 +32,7 @@ class Medida_Protetiva:
         self.data = novo_data_inicio
         self.validacao = novo_validacao
 
+#ESSA É A CLASSE GUARDIÃO, NA QUAL É UMA PESSOA DE CONFIANÇA DA USUÁRIA, A CLASSE GUARDIÃO SEMPRE ESTÁ DENTRO DA CLASSE USUÁRIA (RELAÇÃO DE COMPOSIÇÃO)
 class Guadiao:
     def __init__(self, nome, protegendo, numero, email):
         self.nome = nome
@@ -54,6 +58,9 @@ class Guadiao:
 
     def receberEmail(self, gps_protegendo):
         print("Mensagem de Emergência - Localização: ", gps_protegendo)
+
+#A TORNOZELEIRA É A TORNOZELEIRA USADA PELO AGRESSOR, AMBOS O AGRESSOR E A TORNOZELEIRA EXISTEM APENAS DENTRO DA CLASSE MEDIDA PROTETIVA (RELAÇÃO DE COMPOSIÇÃO)
+#PORÉM NEM TODO AGRESSOR PODE POSSUIR UMA TORNOZELEIRA
 
 class Tornozeleira:
     def __init__(self,modelo,usuario,distancia,data_de_checagem):
@@ -82,7 +89,7 @@ class Tornozeleira:
     def revogar(self):
         pass
 
-
+# A CLASSE AGRESSOR IDENTIFICA O AGRESSOR DA MEDIDA PROTETIVA, A MEDIDA PROTETIVA PRECISA SEMPRE DE UM AGRESSOR. (COMPOSIÇÃO)
 class Agressor:
 
     def _init_(self,nome,gps,cpf,vitima,medida_protetiva):

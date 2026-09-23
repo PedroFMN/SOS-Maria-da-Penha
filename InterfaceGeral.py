@@ -10,6 +10,12 @@ import ClassesAplicativo
 USUARIO_LOGADO = None #USUÁRIO QUE IRÁ USAR O SISTEMA AQUI!
 LOGADO = False #VARIÁVEL PARA SABER SE O USUÁRIO ESTÁ LOGADO OU NÃO
 
+# O CÓDIGO ESTÁ INCOMPLETO!
+# NÃO CONSEGUI TERMINAR, ME DESCULPE
+#MAS, A MAIORIA DO FUNCIONAMENTO JÁ ESTÁ PRONTO, COMO O LOGIN, CRIAÇÃO DE CONTA, E A INTERFACE INICIAL DO SISTEMA.
+
+#SE VOCÊ FOR TESTAR O CÓDIGO, TESTE AQUI! ISSO É A INTERFACE DE TODO USUÁRIO
+
 def interface_inicial():
     while True:
         if not LOGADO:
@@ -96,7 +102,7 @@ def login():
         
         contato = []
 
-        # 
+        #
         for contato in usuario_dados["contatos"]:
             contato.append(contato["nome"])
 
