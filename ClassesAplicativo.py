@@ -1,3 +1,5 @@
+import json
+
 class Notificacao:
     def __init__(self,tipo,remetente,titulo,texto,data):
         self.tipo = tipo
@@ -14,9 +16,10 @@ class Mensagem:
 
 
 class Emergencia:
-    def __init__(self,hora,local):
+    def __init__(self,hora,local,vitima):
         self.hora = hora
         self.local = local
+        self.vitima = vitima
 
     def getDate(self):
         return self.getDate

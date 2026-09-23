@@ -1,0 +1,14 @@
+{
+    "99988877766": {
+        "nome": "Carlos Silva",
+        "cpf": "99988877766",
+        "senha": "123456",
+        "telefone": "988887777",
+        "central_de_seguranca": "Central 190",
+        "matricula": "MAT-101",
+        "nivel_de_acesso": "Agente",
+        "notificacoes": [],
+        "ocorrencia_atual": "Teste1",
+        "historico_ocorrencias": []
+    }
+}

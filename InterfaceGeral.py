@@ -4,6 +4,8 @@ import json
 
 #BIBLIOTECAS DAS CLASSES:
 import ClassesUsuarios
+import ClassesLegais
+import ClassesAplicativo
 
 USUARIO_LOGADO = None #USUÁRIO QUE IRÁ USAR O SISTEMA AQUI!
 LOGADO = False #VARIÁVEL PARA SABER SE O USUÁRIO ESTÁ LOGADO OU NÃO
@@ -58,7 +60,8 @@ def criar_conta():
         "telefone": telefone,
         "guardioes": [],
         "notificacoes": [],
-        "medida_protetiva": "",
+        "contatos": [],
+        "medida_protetiva": ""
     }
 
 
@@ -81,11 +84,39 @@ def login():
     if cpf in usuarios and usuarios[cpf]["senha"] == senha:
         global USUARIO_LOGADO, LOGADO
         usuario_dados = usuarios[cpf]
-        USUARIO_LOGADO = ClassesUsuarios.Usuaria(usuario_dados["nome"], usuario_dados["cpf"], usuario_dados["senha"], usuario_dados["telefone"], usuario_dados["guardioes"], usuario_dados["medida_protetiva"], usuario_dados["notificacoes"])
+
+        guardioes = []
+
+        for guardiao in usuario_dados["guardioes"]:
+            with open("guardioes_db.json", "r") as guardioes_arquivo:
+                guardioes_data = json.load(guardioes_arquivo)
+                guardiao_info = guardioes_data[guardiao]
+                if guardiao_info:
+                    guardioes.append(ClassesLegais.Guadiao(guardiao_info["nome"], guardiao_info["protegendo"], guardiao_info["telefone"], guardiao_info["email"]))
+        
+        contato = []
+
+        # 
+        for contato in usuario_dados["contatos"]:
+            contato.append(contato["nome"])
+
+        notificacao_obj = []
+
+        for notificacao in usuario_dados["notificacoes"]:
+            notificacao_obj.append(ClassesAplicativo.Notificacao(notificacao["tipo"], notificacao["remetente"], notificacao["titulo"], notificacao["texto"], notificacao["data"]))
+        
+
+        medida_protetiva = ""
+        if usuario_dados["medida_protetiva"]:
+            medida_protetiva = ClassesLegais.MedidaProtetiva(usuario_dados["medida_protetiva"]["nome_judicial"], usuario_dados["medida_protetiva"]["distancia"], usuario_dados["medida_protetiva"]["distancia"], usuario_dados["medida_protetiva"]["data_inicio"], usuario_dados["medida_protetiva"]["validacao"], ClassesLegais.Agressor(usuario_dados["medida_protetiva"]["agressor"]["nome"], usuario_dados["medida_protetiva"]["agressor"]["cpf"], usuario_dados["medida_protetiva"]["agressor"]["telefone"]), usuario_dados["medida_protetiva"]["agressor_com_tornozeleira"], ClassesLegais.Tornozeleira(usuario_dados["medida_protetiva"]["tornozeleira"]["modelo"], usuario_dados["medida_protetiva"]["tornozeleira"]["usuario"], usuario_dados["medida_protetiva"]["tornozeleira"]["distancia"], usuario_dados["medida_protetiva"]["tornozeleira"]["data_de_checagem"]))
+        USUARIO_LOGADO = ClassesUsuarios.Usuaria(usuario_dados["nome"], usuario_dados["cpf"], usuario_dados["senha"], usuario_dados["telefone"], guardioes, medida_protetiva, notificacao_obj, contato)
+
         LOGADO = True
         print(f"Bem-vindo(a), {USUARIO_LOGADO.nome}!")
         # Aqui você pode chamar a função para acessar o menu principal do sistema
     else:
         print("CPF ou senha incorretos. Tente novamente.")
+
+
 
 interface_inicial()
