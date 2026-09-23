@@ -4,9 +4,7 @@
         "cpf": "12345678987",
         "senha": "123456",
         "telefone": "12345678",
-        "guardioes": [
-            "rhondisson juan"
-        ],
+        "guardioes": [],
         "notificacoes": [],
         "contatos": [],
         "medida_protetiva": ""
