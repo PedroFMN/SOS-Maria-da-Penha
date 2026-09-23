@@ -8,6 +8,8 @@
 # João Marcos de Oliveira
 # Luis Fabiano Rodrigues Star Domingos
 
+# 2B DE INFORMÁTICA ANO DE 2026
+
 import json
 
 #BIBLIOTECAS DAS CLASSES:
