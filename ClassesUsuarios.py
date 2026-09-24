@@ -259,8 +259,7 @@ class Usuaria(Conta):
                 agente["ocorrencia_atual"] = self.nome
                 with open("agentes_db.json", "w") as dados:
                     json.dump(agentes, dados, indent=4)
-                #crie uma instância da classe agente e chame o método receberEmergencia passando a localização da usuária
-                #coloque as notificações do agente e os contatos
+                
             notificacao_obj = []
             for notificacao in agentes_disponiveis["notificacoes"]:
                 notificacao_obj.append(ClassesAplicativo.Notificacao(notificacao["tipo"], notificacao["remetente"], notificacao["titulo"], notificacao["texto"], notificacao["data"]))
