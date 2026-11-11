@@ -1,10 +1,12 @@
 {
     "12345678987": {
-        "nome": "Teste1",
+        "nome": "Milkman",
         "cpf": "12345678987",
-        "senha": "123456",
-        "telefone": "12345678",
-        "guardioes": [],
+        "senha": "sixseven",
+        "telefone": "92217930",
+        "guardioes": [
+            "deydecosta"
+        ],
         "notificacoes": [],
         "contatos": [],
         "medida_protetiva": ""

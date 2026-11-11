@@ -251,6 +251,7 @@ class Usuaria(Conta):
         print("Acionando emergência...")
         with open("agentes_db.json", "r") as dados:
             agentes = json.load(dados)
+            agente = ""
             agentes_disponiveis = [agente for agente in agentes.values() if agente["ocorrencia_atual"] == None]
             if agentes_disponiveis:
                 emergencia = ClassesAplicativo.Emergencia("00:00", self.gps, self.nome)
@@ -259,22 +260,26 @@ class Usuaria(Conta):
                 agente["ocorrencia_atual"] = self.nome
                 with open("agentes_db.json", "w") as dados:
                     json.dump(agentes, dados, indent=4)
-                
-            notificacao_obj = []
-            for notificacao in agentes_disponiveis["notificacoes"]:
-                notificacao_obj.append(ClassesAplicativo.Notificacao(notificacao["tipo"], notificacao["remetente"], notificacao["titulo"], notificacao["texto"], notificacao["data"]))
 
-            agente_escolhido = Agente(agente["nome"], agente["cpf"], agente["senha"], agente["telefone"], agente["central_de_seguranca"], agente["matricula"], notificacao_obj)
-            agente_escolhido.receber_ocorrencia(emergencia)
+                notificacao_obj = []
+                for notificacao in agentes_disponiveis:
+                    notificacao_obj.append(ClassesAplicativo.Notificacao(notificacao["tipo"], notificacao["remetente"], notificacao["titulo"], notificacao["texto"], notificacao["data"]))
+
+
+                agente_escolhido = Agente(agente["nome"], agente["cpf"], agente["senha"], agente["telefone"], agente["central_de_seguranca"], agente["matricula"], notificacao_obj)
+                agente_escolhido.receber_ocorrencia(emergencia)
+
             for guardiao in self.guardioes:
                 guardiao.receberEmergencia(self.gps)
             nao_esta = True
-            for contato in self.contatos:
-                if agente_escolhido.nome == contato.nome:
-                    nao_esta = False
-            if nao_esta:
-                self.adicionar_contato(agente_escolhido)
-                print(f"Agente {agente_escolhido.nome} adicionado aos contatos da usuária.")
+
+            if agentes_disponiveis:
+                for contato in self.contatos:
+                    if agente_escolhido.nome == contato.nome:
+                        nao_esta = False
+                if nao_esta:
+                    self.adicionar_contato(agente_escolhido)
+                    print(f"Agente {agente_escolhido.nome} adicionado aos contatos da usuária.")
 
     def menu_principal(self, acoes):
         print("--- Menu da Conta ---")
@@ -344,7 +349,7 @@ class Usuaria(Conta):
 
 
     def gerenciar_medida_protetiva(self):
-        if self.medida_protetiva is not "":
+        if self.medida_protetiva != "":
             print(f"Medida protetiva atual: {self.medida_protetiva.nomejudicial}")
 
         else:
