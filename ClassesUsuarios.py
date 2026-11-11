@@ -262,8 +262,9 @@ class Usuaria(Conta):
                     json.dump(agentes, dados, indent=4)
 
                 notificacao_obj = []
-                for notificacao in agentes_disponiveis:
-                    notificacao_obj.append(ClassesAplicativo.Notificacao(notificacao["tipo"], notificacao["remetente"], notificacao["titulo"], notificacao["texto"], notificacao["data"]))
+                for ag in agentes_disponiveis:
+                    for notificacao in ag["notificacoes"]:
+                        notificacao_obj.append(ClassesAplicativo.Notificacao(notificacao["tipo"], notificacao["remetente"], notificacao["titulo"], notificacao["texto"], notificacao["data"]))
 
 
                 agente_escolhido = Agente(agente["nome"], agente["cpf"], agente["senha"], agente["telefone"], agente["central_de_seguranca"], agente["matricula"], notificacao_obj)
