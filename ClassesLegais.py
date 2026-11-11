@@ -1,9 +1,17 @@
+import json
+
+#TODA MEDIDA PROTETIVA CADASTRADA
+#É A CLASSE ONDE ARMAZENA A OUTRA CLASSE AGRESSOR, SEM A MEDIDA PROTETIVA, NÃO EXISTE AGRESSOR NO SISTEMA! (RELAÇÃO DE COMPOSIÇÃO)
+
 class Medida_Protetiva:
-    def __init__(self, nomejudicial, distancia, data_inicio, validacao):
+    def __init__(self, nomejudicial, distancia, data_inicio, validacao, agressor, agressor_com_tornozeleira):
         self.nomejudicial = nomejudicial
         self.distancia = distancia
         self.data = data_inicio
         self.validacao = validacao
+        self.agressor = agressor
+        self.agressor_com_tornozeleira = agressor_com_tornozeleira
+        self.tornozeleira = None
 
     def getAgressor(self, Agressor):
         return Agressor
@@ -24,12 +32,19 @@ class Medida_Protetiva:
         self.data = novo_data_inicio
         self.validacao = novo_validacao
 
+#ESSA É A CLASSE GUARDIÃO, NA QUAL É UMA PESSOA DE CONFIANÇA DA USUÁRIA, A CLASSE GUARDIÃO SEMPRE ESTÁ DENTRO DA CLASSE USUÁRIA (RELAÇÃO DE COMPOSIÇÃO)
 class Guadiao:
     def __init__(self, nome, protegendo, numero, email):
         self.nome = nome
         self.protegendo = protegendo
         self.telefone = numero
         self.email = email
+
+        #Caso o nome tenha algum valor errado, o raise vai informar quem é um erro de valor
+        if self.nome == int:
+            raise ValueError ("Informação inaválida")
+        else:
+            pass
 
     def receberEmergencia(self, gps_proteger):
         usuario = Guadiao
@@ -49,3 +64,68 @@ class Guadiao:
 
     def receberEmail(self, gps_protegendo):
         print("Mensagem de Emergência - Localização: ", gps_protegendo)
+
+#A TORNOZELEIRA É A TORNOZELEIRA USADA PELO AGRESSOR, AMBOS O AGRESSOR E A TORNOZELEIRA EXISTEM APENAS DENTRO DA CLASSE MEDIDA PROTETIVA (RELAÇÃO DE COMPOSIÇÃO)
+#PORÉM NEM TODO AGRESSOR PODE POSSUIR UMA TORNOZELEIRA
+
+class Tornozeleira:
+    def __init__(self,modelo,usuario,distancia,data_de_checagem):
+        self.identificacao = 0
+        self.modelo = modelo
+        self.usuario = usuario
+        self.distancia = distancia
+        self.data_de_checagem = data_de_checagem
+
+    def get_modelo(self):
+        return self.modelo
+
+    def get_distancia(self):
+        return self.distancia
+
+    def get_usuario(self):
+        return self.usuario
+
+    def get_data(self):
+        return self.data_de_checagem
+
+    def prorrogar(self):
+        return self.data_de_checagem
+
+    def revogar(self):
+        pass
+
+# A CLASSE AGRESSOR IDENTIFICA O AGRESSOR DA MEDIDA PROTETIVA, A MEDIDA PROTETIVA PRECISA SEMPRE DE UM AGRESSOR. (COMPOSIÇÃO)
+class Agressor:
+
+    def _init_(self,nome,gps,cpf,vitima,medida_protetiva):
+        # Atributos do Agressor
+        self.nome = nome
+        self.esta_com_tornozeleira = False
+        self.gps = gps
+        self.cpf = cpf
+        self.vitima = vitima
+        self.medida_protetiva = medida_protetiva
+
+        self.tornozeleira = None
+
+    #Caso o nome ou no CPF tenha algum valor errado, o raise vai informar quem é um erro de valor
+        if self.nome == int:
+            raise ValueError ("Informação inválida")
+        #Se acaso esteja tudo certo, o código vai ocorrer normalmente com o else
+        else:
+            pass
+
+        if self.cpf != int:
+            raise ValueError ("Informação inválida")
+        #Se acaso esteja tudo certo, o código vai ocorrer normalmente com o else
+        else:
+            pass
+
+    def get_gps(self):
+        return self.gps
+
+    def get_medida_protetiva(self):
+        return self.medida_protetiva
+
+    def tem_tornozeleira(self):
+        return self.esta_com_tornozeleira
