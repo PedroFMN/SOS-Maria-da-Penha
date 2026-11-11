@@ -40,6 +40,12 @@ class Guadiao:
         self.telefone = numero
         self.email = email
 
+        #Caso o nome tenha algum valor errado, o raise vai informar quem é um erro de valor
+        if self.nome == int:
+            raise ValueError ("Informação inaválida")
+        else:
+            pass
+
     def receberEmergencia(self, gps_proteger):
         usuario = Guadiao
         mensagem = print("Mensagem de Emergência - Localização: ", gps_proteger)
@@ -70,7 +76,6 @@ class Tornozeleira:
         self.distancia = distancia
         self.data_de_checagem = data_de_checagem
 
-  
     def get_modelo(self):
         return self.modelo
 
@@ -101,10 +106,21 @@ class Agressor:
         self.vitima = vitima
         self.medida_protetiva = medida_protetiva
 
-    
         self.tornozeleira = None
 
- 
+    #Caso o nome ou no CPF tenha algum valor errado, o raise vai informar quem é um erro de valor
+        if self.nome == int:
+            raise ValueError ("Informação inválida")
+        #Se acaso esteja tudo certo, o código vai ocorrer normalmente com o else
+        else:
+            pass
+
+        if self.cpf != int:
+            raise ValueError ("Informação inválida")
+        #Se acaso esteja tudo certo, o código vai ocorrer normalmente com o else
+        else:
+            pass
+
     def get_gps(self):
         return self.gps
 
